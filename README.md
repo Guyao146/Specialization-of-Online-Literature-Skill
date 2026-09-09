@@ -6,6 +6,7 @@
 
 ## 核心原则
 
+- 需要搭配自己手写文章作为文风参考使用，公式化输入根据文件内容创作下一章，下一章剧情如下···一串剧情···
 - 写作阶段只读取 `prompts/writing.md` 与 `prompts/format.md`；草稿完成后才进入修订阶段，读取 `prompts/revision.md` 与 `prompts/anti-overfitting.md`。
 - 内部推演（锁定、状态、节拍）不输出。
 - 规则是过滤器，不是声音来源；事件先于句式，人物先于漂亮话。
