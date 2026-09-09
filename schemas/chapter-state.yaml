@@ -1,0 +1,19 @@
+version: 1
+chapter: ""
+viewpoint: ""
+entry:
+  injury_and_cost: []
+  items: []
+  location: ""
+  relationships: []
+  known_information: []
+exit:
+  injury_and_cost: []
+  items: []
+  location: ""
+  relationships: []
+  known_information: []
+continuity:
+  planted: []
+  resolved: []
+  project_bible_updates: []

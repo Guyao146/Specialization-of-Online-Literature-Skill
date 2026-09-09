@@ -1,0 +1,9 @@
+# Local project material
+projects/
+drafts/
+*.local.md
+
+# Editor / OS
+.vscode/settings.json
+.DS_Store
+Thumbs.db

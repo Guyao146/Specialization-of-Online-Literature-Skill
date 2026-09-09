@@ -1,0 +1,26 @@
+version: 1
+description: 网文 Skill 的推荐请求结构；字段值由用户或项目资料提供。
+required:
+  - mode
+  - task
+properties:
+  mode:
+    enum: [discussion, review, outline, draft, revision]
+  task:
+    type: string
+  chapter:
+    type: string
+  viewpoint:
+    type: string
+  known_facts:
+    type: array
+  desired_effects:
+    type: array
+  forbidden_changes:
+    type: array
+  target_length:
+    type: string
+  source_files:
+    type: array
+  output:
+    enum: [prose_only, report_only, revised_prose, outline]

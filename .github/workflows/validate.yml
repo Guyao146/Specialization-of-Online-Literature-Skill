@@ -1,0 +1,14 @@
+name: Validate skill
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate repository structure
+        shell: pwsh
+        run: ./scripts/validate.ps1
