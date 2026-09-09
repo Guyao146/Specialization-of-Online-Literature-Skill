@@ -22,5 +22,11 @@ properties:
     type: string
   source_files:
     type: array
+  canon_sources:
+    type: array
+  style_reference_files:
+    type: array
+  existing_chapter_files:
+    type: array
   output:
     enum: [prose_only, report_only, revised_prose, outline]

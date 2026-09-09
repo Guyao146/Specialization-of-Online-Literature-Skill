@@ -6,7 +6,8 @@ $required = @(
   'prompts/core.md', 'prompts/writing.md', 'prompts/revision.md',
   'prompts/anti-overfitting.md', 'prompts/format.md',
   'templates/project-bible.md', 'templates/character-card.md',
-  'templates/chapter-state.md', 'schemas/request.yaml'
+  'templates/chapter-state.md', 'templates/style-reference.md',
+  'schemas/request.yaml'
 )
 
 $missing = @($required | Where-Object { -not (Test-Path (Join-Path $root $_)) })
@@ -18,8 +19,20 @@ foreach ($path in @('prompts/core.md','prompts/writing.md','prompts/revision.md'
 }
 
 $writing = Get-Content (Join-Path $root 'prompts/writing.md') -Raw
-if ($writing -match '红名单|速删表|行为级 AI 腔|行为级AI腔|瞳孔地震') {
+$revisionOnlyMarkers = @('### 1.1', '### 2.7', 'dshV4')
+if ($revisionOnlyMarkers | Where-Object { $writing.Contains($_) }) {
   throw 'Writing prompt contains revision-only anti-overfitting material.'
 }
+
+$antiOverfitting = Get-Content (Join-Path $root 'prompts/anti-overfitting.md') -Raw
+$antiOverfittingMarkers = @('v4', '### 1.1', '### 2.7', '### 3.4', 'dshV4')
+foreach ($marker in $antiOverfittingMarkers) {
+  if ($antiOverfitting -notmatch [regex]::Escape($marker)) {
+    throw "Anti-overfitting protocol is missing required marker: $marker"
+  }
+}
+
+$core = Get-Content (Join-Path $root 'prompts/core.md') -Raw
+if (-not $core.Contains('v6.4')) { throw 'Core prompt version is not v6.4.' }
 
 Write-Output "Validation passed: $($required.Count) required files and phase boundaries are valid."
