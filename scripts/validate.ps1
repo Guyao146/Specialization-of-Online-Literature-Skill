@@ -7,7 +7,14 @@ $required = @(
   'prompts/anti-overfitting.md', 'prompts/format.md',
   'templates/project-bible.md', 'templates/character-card.md',
   'templates/chapter-state.md', 'templates/style-reference.md',
-  'schemas/request.yaml'
+  'schemas/request.yaml',
+  'profiles/classic-western-fantasy/PROFILE.md',
+  'profiles/classic-western-fantasy/prompts/core.md',
+  'profiles/classic-western-fantasy/prompts/writing.md',
+  'profiles/classic-western-fantasy/prompts/revision.md',
+  'profiles/classic-western-fantasy/prompts/anti-overfitting.md',
+  'profiles/classic-western-fantasy/prompts/lexicon.md',
+  'profiles/classic-western-fantasy/prompts/format.md'
 )
 
 $missing = @($required | Where-Object { -not (Test-Path (Join-Path $root $_)) })
@@ -34,5 +41,37 @@ foreach ($marker in $antiOverfittingMarkers) {
 
 $core = Get-Content (Join-Path $root 'prompts/core.md') -Raw
 if (-not $core.Contains('v6.4')) { throw 'Core prompt version is not v6.4.' }
+
+$westernRoot = Join-Path $root 'profiles/classic-western-fantasy'
+$westernProfile = Get-Content (Join-Path $westernRoot 'PROFILE.md') -Raw
+foreach ($path in @('prompts/core.md','prompts/writing.md','prompts/revision.md','prompts/anti-overfitting.md','prompts/lexicon.md','prompts/format.md')) {
+  if ($westernProfile -notmatch [regex]::Escape($path)) {
+    throw "Western fantasy profile does not route to $path"
+  }
+}
+
+$westernWriting = Get-Content (Join-Path $westernRoot 'prompts/writing.md') -Raw
+if (-not $westernWriting.Contains('v1')) { throw 'Western fantasy writing prompt version is not v1.' }
+if ($westernWriting.Contains('Kimi > Gemini > dshV4') -or $westernWriting.Contains('### 1.1')) {
+  throw 'Western fantasy writing prompt contains revision-only material.'
+}
+
+$westernAntiOverfitting = Get-Content (Join-Path $westernRoot 'prompts/anti-overfitting.md') -Raw
+foreach ($marker in @('v1','1.1','2.10','4.4','7.5')) {
+  if (-not $westernAntiOverfitting.Contains($marker)) {
+    throw "Western fantasy anti-overfitting protocol is missing marker: $marker"
+  }
+}
+
+$westernLexicon = Get-Content (Join-Path $westernRoot 'prompts/lexicon.md') -Raw
+foreach ($marker in @('v1','1.1','2.3','4.1','5.1','## ')) {
+  if (-not $westernLexicon.Contains($marker)) {
+    throw "Western fantasy lexicon is missing marker: $marker"
+  }
+}
+
+if (-not $skill.Contains('profiles/classic-western-fantasy/PROFILE.md')) {
+  throw 'SKILL.md does not route to the western fantasy profile.'
+}
 
 Write-Output "Validation passed: $($required.Count) required files and phase boundaries are valid."

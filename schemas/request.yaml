@@ -4,6 +4,8 @@ required:
   - mode
   - task
 properties:
+  profile:
+    enum: [fanfiction-default, classic-western-fantasy]
   mode:
     enum: [discussion, review, outline, draft, revision]
   task:
